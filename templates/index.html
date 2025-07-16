@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote SSH Script Execution</title>
+    {% include 'styles.html' %}
+</head>
+<body>
+    <h1>Remote SSH Script Execution</h1>
+    <form action="/execute" method="post">
+        <label for="remote_ip">Remote IP:</label>
+        <input type="text" id="remote_ip" name="remote_ip" required>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="script_input">Input Script:</label>
+        <textarea id="script_input" name="script_input" rows="4" cols="50" placeholder="Enter your script here" required></textarea>
+
+        <input type="submit" value="Execute Script" class="submit-btn">
+    </form>
+
+    {% if is_connected %}
+        <form action="/execute_additional" method="post">
+            <label for="additional_script">Additional Script:</label>
+            <textarea id="additional_script" name="additional_script" class="additional-script" rows="4" cols="50" placeholder="Enter additional script here"></textarea>
+            <input type="submit" value="Execute Additional Script" class="submit-btn">
+        </form>
+
+        <button class="end-session-btn" onclick="endSession()">End Session</button>
+    {% endif %}
+
+    {% if result %}
+        <div class="output">
+            <h2>Execution Result</h2>
+            {% if result.output %}
+                <h3>Output:</h3>
+                <pre>{{ result.output }}</pre>
+            {% endif %}
+
+            {% if result.error %}
+                <h3>Error:</h3>
+                <pre style="color: red;">{{ result.error }}</pre>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <a href="/">Go Back</a>
+
+    <script>
+        function endSession() {
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/end_session';
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</body>
+</html>
