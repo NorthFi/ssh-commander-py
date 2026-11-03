@@ -1,3 +1,4 @@
+# root/ssh-commander.py
 from flask import Flask, render_template, request
 
 import paramiko
@@ -92,4 +93,6 @@ def end_session():
     return render_template('index.html', result={'message': 'SSH session ended successfully.'}, is_connected=False)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    # This application has no HTTP authentication and can execute arbitrary remote commands.
+    # Keep it bound to loopback and never expose the development server on a network.
+    app.run(debug=False, host='127.0.0.1')
