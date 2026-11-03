@@ -83,6 +83,9 @@ End Session
 Safely disconnect when done
 
 🔒 Security Notes
+
+**Security hardening:** The application now binds to `127.0.0.1:5000` with Flask debug mode disabled. This prevents direct access from other machines by default. The application remains unsuitable for multi-user or public deployment: it has no HTTP authentication, shares a process-global SSH connection, and currently accepts unknown SSH host keys automatically. Do not expose it via a reverse proxy, tunnel, or public interface until those risks are addressed.
+
 ⚠️ For testing/local use only (Not recommended for production without enhancements):
 
 Uses password-based auth (consider SSH keys)
